@@ -25,9 +25,9 @@ Go field by field and decide type + optional/required + default before writing a
 | `updatedAt` | DateTime | auto (`@updatedAt`) | this is what powers "sort by last updated" later |
 
 **Decisions to make before Phase 1:**
-- [ ] `currentChapter`: Int or Float?
-- [ ] Rating scale: 1–5 or 1–10, or skip for now and add in Phase 3?
-- [ ] `id` strategy: autoincrement int vs cuid/uuid?
+- [ Int ] `currentChapter`: Int or Float?
+- [ 1-10 ] Rating scale: 1–5 or 1–10, or skip for now and add in Phase 3?
+- [ uuid ] `id` strategy: autoincrement int vs cuid/uuid?
 
 ---
 
@@ -51,24 +51,24 @@ enum SeriesStatus {
 }
 ```
 
-- [ ] Confirm no other statuses needed (e.g. "Re-reading"? Skip for v1 — add later if you actually want it)
+- [ Skip ] Confirm no other statuses needed (e.g. "Re-reading"? Skip for v1 — add later if you actually want it)
 
 ---
 
 ## 3. Scaffold NestJS project
 
-- [ ] `nest new manga-tracker-api` (choose npm or pnpm, be consistent with frontend choice)
-- [ ] Confirm it runs on default port (3000) — decide if you'll move API to 3001 to leave room for React on 3000
-- [ ] Clean out the default boilerplate `AppController`/`AppService` example route
-- [ ] Set up `.env` with `DATABASE_URL` for SQLite (e.g. `file:./dev.db`)
-- [ ] Add `.gitignore` entries: `node_modules`, `.env`, `dev.db`, `dist`
+- [x] `nest new manga-tracker-api` (choose npm or pnpm, be consistent with frontend choice)
+- [x] Confirm it runs on default port (3000) — decide if you'll move API to 3001 to leave room for React on 3000
+- [x] Clean out the default boilerplate `AppController`/`AppService` example route
+- [x] Set up `.env` with `DATABASE_URL` for SQLite (e.g. `file:./dev.db`)
+- [x] Add `.gitignore` entries: `node_modules`, `.env`, `dev.db`, `dist`
 
 ---
 
 ## 4. Scaffold React project
 
-- [ ] `npm create vite@latest manga-tracker-web -- --template react-ts` (TS recommended even for a bored weekend project — Prisma types will pair nicely with a typed frontend)
-- [ ] Clean out default Vite boilerplate (logo, counter demo)
+- [x] `npm create vite@latest manga-tracker-web -- --template react-ts` (TS recommended even for a bored weekend project — Prisma types will pair nicely with a typed frontend)
+- [x] Clean out default Vite boilerplate (logo, counter demo)
 - [ ] Decide routing needs now: do you need React Router for a Detail page, or is list + modal enough for v1? (Recommendation: skip router in v1, use a modal/drawer for add/edit — one less dependency)
 - [ ] Decide styling approach now so you're not fiddling with it mid-build: plain CSS, Tailwind, or a component lib? (No wrong answer — pick based on what you want practice with)
 

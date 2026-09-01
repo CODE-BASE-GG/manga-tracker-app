@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum SeriesType {
+  MANGA
+  MANWHA
+  MANHUA
+}
+
+enum SeriesStatus {
+  READING
+  PLAN_TO_READ
+  ON_HOLD
+  DROPPED
+  COMPLETED
+}
+
+model Series {
+  id             String       @id @default(uuid())
+  title          String
+  altTitle       String?
+  type           SeriesType
+  status         SeriesStatus @default(PLAN_TO_READ)
+  currentChapter Int          @default(0)
+  totalChapter   Int?
+  rating         Int?
+  notes          String?
+  coverUrl       String?
+  sourceUrl      String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
