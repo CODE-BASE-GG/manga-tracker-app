@@ -69,35 +69,36 @@ enum SeriesStatus {
 
 - [x] `npm create vite@latest manga-tracker-web -- --template react-ts` (TS recommended even for a bored weekend project — Prisma types will pair nicely with a typed frontend)
 - [x] Clean out default Vite boilerplate (logo, counter demo)
-- [ ] Decide routing needs now: do you need React Router for a Detail page, or is list + modal enough for v1? (Recommendation: skip router in v1, use a modal/drawer for add/edit — one less dependency)
-- [ ] Decide styling approach now so you're not fiddling with it mid-build: plain CSS, Tailwind, or a component lib? (No wrong answer — pick based on what you want practice with)
+- [x] Decide routing needs now: do you need React Router for a Detail page, or is list + modal enough for v1? (Recommendation: skip router in v1, use a modal/drawer for add/edit — one less dependency)
+- [x] Decide styling approach now so you're not fiddling with it mid-build: plain CSS, Tailwind, or a component lib? (No wrong answer — pick based on what you want practice with)
 
 ---
 
 ## 5. Install & initialize Prisma
 
-- [ ] `npm install prisma --save-dev` and `npm install @prisma/client` in the NestJS project
-- [ ] `npx prisma init --datasource-provider sqlite`
-- [ ] Confirm `schema.prisma` points at `env("DATABASE_URL")` and provider is `sqlite`
-- [ ] Write the `Series` model + enums into `schema.prisma` using the fields locked in section 1
+- [x] `npm install prisma --save-dev` and `npm install @prisma/client` in the NestJS project
+- [x] `npx prisma init --datasource-provider sqlite`
+- [x] Confirm `schema.prisma` points at `env("DATABASE_URL")` and provider is `sqlite`
+- [x] Write the `Series` model + enums into `schema.prisma` using the fields locked in section 1
 
 ---
 
 ## 6. Wire Prisma into NestJS
 
-- [ ] Create `PrismaModule` + `PrismaService` (standard Nest+Prisma pattern: `PrismaService extends PrismaClient implements OnModuleInit`)
-- [ ] Register `PrismaModule` as a global module so it doesn't need re-importing everywhere
-- [ ] Sanity check: inject `PrismaService` into `AppService` temporarily and confirm `prisma.$connect()` works without errors
+- [x] Create `PrismaModule` + `PrismaService` (standard Nest+Prisma pattern: `PrismaService extends PrismaClient implements OnModuleInit`)
+- [x] Register `PrismaModule` as a global module so it doesn't need re-importing everywhere
+- [x] Sanity check: inject `PrismaService` into `AppService` temporarily and confirm `prisma.$connect()` works without errors
 
 ---
 
 ## Exit criteria for Phase 0
 
 You're done with this phase when:
-- [ ] `schema.prisma` has the final `Series` model + enums, committed
-- [ ] `npx prisma migrate dev` runs clean with no schema changes pending
-- [ ] NestJS app boots with `PrismaService` injectable and connected
-- [ ] React app boots to a blank/default page
-- [ ] Both repos (or one monorepo — your call, not decided above, so decide it here) are initialized with git
+- [x] `schema.prisma` has the final `Series` model + enums, committed
+- [x] `npx prisma migrate dev` runs clean with no schema changes pending
+- [x] NestJS app boots with `PrismaService` injectable and connected
+- [x] React app boots to a blank/default page
+- [x] Both repos (or one monorepo — your call, not decided above, so decide it here) are initialized with git
 
 **Decision not yet made — settle before Phase 1:** monorepo (single git repo, `/api` and `/web` folders) vs. two separate repos. For a solo bored-weekend project, monorepo is simpler to manage.
+- Monorepo ( Status for Phase 0 - DONE )
