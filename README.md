@@ -8,10 +8,10 @@ This plan is split into one README per phase. Work through them in order — eac
 
 ## Phases
 
-1. [Phase 0 — Planning & Setup](./PHASE_0_PLANNING_SETUP.md)
-2. [Phase 1 — MVP Backend](./PHASE_1_MVP_BACKEND.md)
-3. [Phase 2 — MVP Frontend](./PHASE_2_MVP_FRONTEND.md) ← **MVP milestone**
-4. [Phase 3 — Quality of Life (v2)](./PHASE_3_QUALITY_OF_LIFE.md)
+1. [Phase 0 — Planning & Setup](./PHASE_0_PLANNING_SETUP.md) - *Implemented*
+2. [Phase 1 — MVP Backend](./PHASE_1_MVP_BACKEND.md) - *Implemented*
+3. [Phase 2 — MVP Frontend](./PHASE_2_MVP_FRONTEND.md) ← **MVP milestone** - *Implemented*
+4. [Phase 3 — Quality of Life (v2)](./PHASE_3_QUALITY_OF_LIFE.md) 
 5. [Phase 4 — Stretch Goals (v3)](./PHASE_4_STRETCH_GOALS.md)
 
 ## Core data model (summary)

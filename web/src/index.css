@@ -156,6 +156,10 @@ button {
   border-color: #111827;
 }
 
+.series-card__actions button:last-child {
+  color: #b91c1c;
+}
+
 .empty-state {
   padding: 48px 24px;
   text-align: center;
@@ -166,6 +170,21 @@ button {
 
 .empty-state h2 {
   margin-top: 0;
+}
+
+.delete-modal {
+  max-width: 480px;
+}
+
+.delete-modal_warning {
+  color: #b91c1c;
+  font-size: 0.9rem;
+}
+
+.delete-button {
+  background: #b91c1c !important;
+  color: white !important;
+  border-color: #b91c1c !important;
 }
 
 @media (max-width: 600px) {

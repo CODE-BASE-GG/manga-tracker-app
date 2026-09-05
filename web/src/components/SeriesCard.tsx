@@ -4,9 +4,15 @@ interface SeriesCardProps {
   series: Series;
   onBumpChapter: (id: string) => void;
   onEdit: (series: Series) => void;
+  onDelete: (id: string) => void;
 }
 
-export function SeriesCard({ series, onBumpChapter, onEdit }: SeriesCardProps) {
+export function SeriesCard({ 
+  series, 
+  onBumpChapter, 
+  onEdit,
+  onDelete,  
+}: SeriesCardProps) {
   return (
     <article className="series-card">
       <div className="series-card_content">
@@ -38,6 +44,10 @@ export function SeriesCard({ series, onBumpChapter, onEdit }: SeriesCardProps) {
 
           <button type="button" onClick={() => onEdit(series)}>
             Edit
+          </button>
+
+          <button type="button" onClick={() => onDelete(series.id)}>
+            Delete
           </button>
         </div>
       </div>

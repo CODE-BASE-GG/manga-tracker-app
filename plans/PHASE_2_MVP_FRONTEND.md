@@ -52,26 +52,26 @@ Prerequisite: Phase 1 API running locally with all endpoints tested.
 
 ## 6. Add Series form
 
-- [ ] Fields: title (required), altTitle, type (select), status (select, default Plan to Read), totalChapters, coverUrl, sourceUrl, notes
-- [ ] Client-side validation: title required, totalChapters must be positive if provided
-- [ ] Submit → `createSeries()` → close form → refetch/update list
-- [ ] Decide UI pattern: separate page, modal, or slide-in drawer? (Recommendation from Phase 0: modal, since router was deferred)
+- [x] Fields: title (required), altTitle, type (select), status (select, default Plan to Read), totalChapters, coverUrl, sourceUrl, notes
+- [x] Client-side validation: title required, totalChapters must be positive if provided
+- [x] Submit → `createSeries()` → close form → refetch/update list
+- [x] Decide UI pattern: separate page, modal, or slide-in drawer? [Modal]
 
 ---
 
 ## 7. Edit Series form
 
-- [ ] Same fields as Add, pre-filled with existing values
-- [ ] Also allows manually setting `currentChapter` directly (not just bumping) — needed for corrections, e.g. "actually I'm on chapter 40, not 12"
-- [ ] Submit → `updateSeries()` → refetch/update list
+- [x] Same fields as Add, pre-filled with existing values
+- [x] Also allows manually setting `currentChapter` directly (not just bumping) — needed for corrections, e.g. "actually I'm on chapter 40, not 12"
+- [x] Submit → `updateSeries()` → refetch/update list
 
 ---
 
 ## 8. Delete flow
 
-- [ ] Delete action available from list item or edit form
-- [ ] Confirmation step required (native `confirm()` is fine for v1, doesn't need a custom modal)
-- [ ] On confirm → `deleteSeries()` → remove from local state/refetch
+- [x] Delete action available from list item or edit form
+- [x] Confirmation step required (native `confirm()` is fine for v1, doesn't need a custom modal)
+- [x] On confirm → `deleteSeries()` → remove from local state/refetch
 
 ---
 

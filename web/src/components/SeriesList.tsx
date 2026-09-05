@@ -1,5 +1,5 @@
 import type { Series } from "../types";
-import { SeriesCard } from "./SeriesCrad";
+import { SeriesCard } from "./SeriesCard";
 
 interface SeriesListProps {
   series: Series[];
@@ -7,6 +7,7 @@ interface SeriesListProps {
   error: string | null;
   onBumpChapter: (id: string) => void;
   onEdit: (series: Series) => void;
+  onDelete: (id: string) => void;
 }
 
 export function SeriesList({
@@ -15,6 +16,7 @@ export function SeriesList({
   error,
   onBumpChapter,
   onEdit,
+  onDelete,
 }: SeriesListProps) {
   if (isLoading) {
     return <p>Loading...</p>;
@@ -41,6 +43,7 @@ export function SeriesList({
           series={item}
           onBumpChapter={onBumpChapter}
           onEdit={onEdit}
+          onDelete={onDelete}
         />
       ))}
     </section>
