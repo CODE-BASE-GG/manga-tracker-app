@@ -1,16 +1,14 @@
-export type SeriesStatus = 
-    | 'READING'
-    | 'PLAN_TO_READ'
-    | 'ON_HOLD'
-    | 'DROPPED'
-    | 'COMPLETED';
-
 export type SeriesType =
-    | 'MANGA'
-    | 'MANHWA'
-    | 'MANHUA'
-    | 'NOVEL'
-    | 'OTHER';
+  | 'MANGA'
+  | 'MANHWA'
+  | 'MANHUA';
+
+export type SeriesStatus =
+  | 'READING'
+  | 'PLAN_TO_READ'
+  | 'ON_HOLD'
+  | 'DROPPED'
+  | 'COMPLETED';
 
 export interface Series {
   id: string;
@@ -19,10 +17,11 @@ export interface Series {
   type: SeriesType;
   status: SeriesStatus;
   currentChapter: number;
-  totalChapters: number | null;
+  totalChapter: number | null;
+  rating: number | null;
+  notes: string | null;
   coverUrl: string | null;
   sourceUrl: string | null;
-  notes: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -30,12 +29,14 @@ export interface Series {
 export interface CreateSeriesDto {
   title: string;
   altTitle?: string;
-  type?: SeriesType;
+  type: SeriesType;
   status?: SeriesStatus;
-  totalChapters?: number;
+  currentChapter?: number;
+  totalChapter?: number;
+  rating?: number;
+  notes?: string;
   coverUrl?: string;
   sourceUrl?: string;
-  notes?: string;
 }
 
 export interface UpdateSeriesDto {
@@ -44,8 +45,9 @@ export interface UpdateSeriesDto {
   type?: SeriesType;
   status?: SeriesStatus;
   currentChapter?: number;
-  totalChapters?: number;
+  totalChapter?: number;
+  rating?: number;
+  notes?: string;
   coverUrl?: string;
   sourceUrl?: string;
-  notes?: string;
 }

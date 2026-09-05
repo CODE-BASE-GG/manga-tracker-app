@@ -11,14 +11,15 @@ if (!API_URL) {
     throw new Error('VITE_API_URL is not configured');
 }
 
-async function request<T> (
+async function request<T>(
     path: string,
     options?: RequestInit,
 ): Promise<T> {
     const response = await fetch(`${API_URL}${path}`, {
+        cache: 'no-store',
         headers: {
-            'Content-Type': 'application/json',
-            ...options?.headers
+        'Content-Type': 'application/json',
+        ...options?.headers,
         },
         ...options,
     });
@@ -88,7 +89,7 @@ export function bumpChapter(
     amount = 1,
 ): Promise<Series> {
     return request<Series>(`/series/${id}/bump`, {
-        method: 'PATCH',
-        body: JSON.stringify({amount}),
+    method: 'PATCH',
+    body: JSON.stringify({ amount }),
     });
 }

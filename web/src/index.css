@@ -1,0 +1,190 @@
+:root {
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: #1f2937;
+  background: #f3f4f6;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.app {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.app-header h1 {
+  margin: 0;
+}
+
+.app-header p {
+  margin: 4px 0 0;
+  color: #6b7280;
+}
+
+.app-header button {
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: #111827;
+  color: white;
+}
+
+.status-filter {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.status-filter button {
+  white-space: nowrap;
+  padding: 8px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  background: white;
+}
+
+.status-filter button.active {
+  background: #111827;
+  color: white;
+  border-color: #111827;
+}
+
+.series-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(260px, 1fr)
+  );
+  gap: 16px;
+}
+
+.series-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.series-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.series-card h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.series-card__alt-title {
+  margin: 8px 0 0;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.series-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge--type {
+  background: #e5e7eb;
+}
+
+.badge--status {
+  background: #dbeafe;
+}
+
+.series-card__chapters {
+  margin: 20px 0;
+  font-weight: 600;
+}
+
+.series-card__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.series-card__actions button {
+  flex: 1;
+  padding: 9px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+}
+
+.series-card__actions button:first-child {
+  background: #111827;
+  color: white;
+  border-color: #111827;
+}
+
+.empty-state {
+  padding: 48px 24px;
+  text-align: center;
+  background: white;
+  border: 1px dashed #d1d5db;
+  border-radius: 12px;
+}
+
+.empty-state h2 {
+  margin-top: 0;
+}
+
+@media (max-width: 600px) {
+  .app {
+    padding: 16px;
+  }
+
+  .app-header {
+    align-items: flex-start;
+  }
+
+  .app-header button {
+    flex-shrink: 0;
+  }
+
+  .series-grid {
+    grid-template-columns: 1fr;
+  }
+}
