@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { getAllSeries } from '../api/seriesApi';
-import type { Series, SeriesStatus } from '../types';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { getAllSeries } from "../api/seriesApi";
+import type { Series, SeriesStatus } from "../types";
 
 interface UseSeriesResult {
   series: Series[];
@@ -9,9 +9,7 @@ interface UseSeriesResult {
   refetch: () => Promise<void>;
 }
 
-export function useSeries(
-  status?: SeriesStatus,
-): UseSeriesResult {
+export function useSeries(status?: SeriesStatus): UseSeriesResult {
   const [series, setSeries] = useState<Series[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -35,11 +33,7 @@ export function useSeries(
         return;
       }
 
-      setError(
-        err instanceof Error
-          ? err.message
-          : 'Failed to load series',
-      );
+      setError(err instanceof Error ? err.message : "Failed to load series");
     }
   }, [status]);
 

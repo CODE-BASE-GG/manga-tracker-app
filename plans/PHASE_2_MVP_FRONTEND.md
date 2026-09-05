@@ -8,45 +8,45 @@ Prerequisite: Phase 1 API running locally with all endpoints tested.
 
 ## 1. API client layer
 
-- [ ] Create a small `api/` folder or `services/seriesApi.ts` file — don't scatter raw `fetch()` calls through components
-- [ ] Base URL as an env var (`VITE_API_URL`) so it's not hardcoded — you'll thank yourself if the API port changes
-- [ ] Functions to implement: `getAllSeries(status?)`, `getSeriesById(id)`, `createSeries(dto)`, `updateSeries(id, dto)`, `deleteSeries(id)`, `bumpChapter(id, amount?)`
-- [ ] Decide error handling pattern now: throw and catch in components, or return a `{ data, error }` shape? (Recommendation: throw + try/catch, simpler for a small app)
+- [x] Create a small `api/` folder or `services/seriesApi.ts` file — don't scatter raw `fetch()` calls through components
+- [x] Base URL as an env var (`VITE_API_URL`) so it's not hardcoded — you'll thank yourself if the API port changes
+- [x] Functions to implement: `getAllSeries(status?)`, `getSeriesById(id)`, `createSeries(dto)`, `updateSeries(id, dto)`, `deleteSeries(id)`, `bumpChapter(id, amount?)`
+- [x] Decide error handling pattern now: throw and catch in components, or return a `{ data, error }` shape? (Recommendation: throw + try/catch, simpler for a small app)
 
 ---
 
 ## 2. Types
 
-- [ ] Mirror the Prisma `Series` model as a TypeScript type/interface on the frontend (`SeriesType`, `SeriesStatus` enums as string literal unions)
-- [ ] Keep this in a shared `types.ts` — avoids drift between what the API returns and what components expect
+- [x] Mirror the Prisma `Series` model as a TypeScript type/interface on the frontend (`SeriesType`, `SeriesStatus` enums as string literal unions)
+- [x] Keep this in a shared `types.ts` — avoids drift between what the API returns and what components expect
 
 ---
 
 ## 3. `useSeries` hook (or equivalent state layer)
 
-- [ ] Holds the list of series in state, exposes `refetch()`
-- [ ] Loading state (`isLoading`) — v1 doesn't need skeleton loaders, just a simple "Loading..." text is fine
-- [ ] Error state (`error`) — simple string/message is enough for v1
-- [ ] Decide: React Query/SWR now, or plain `useState` + `useEffect`? (Recommendation: plain hooks for v1 — this app doesn't need caching/revalidation complexity yet; revisit in Phase 3 if the manual refetch calls get annoying)
+- [x] Holds the list of series in state, exposes `refetch()`
+- [x] Loading state (`isLoading`) — v1 doesn't need skeleton loaders, just a simple "Loading..." text is fine
+- [x] Error state (`error`) — simple string/message is enough for v1
+- [x] Decide: React Query/SWR now, or plain `useState` + `useEffect`? (Recommendation: plain hooks for v1 — this app doesn't need caching/revalidation complexity yet; revisit in Phase 3 if the manual refetch calls get annoying)
 
 ---
 
 ## 4. Series List view
 
-- [ ] Renders all series as cards or table rows — pick one layout, card grid probably reads nicer for cover images later
-- [ ] Each item shows: title, type badge, status badge, current chapter (and `/ totalChapters` if known)
-- [ ] Status filter — simple tab bar or dropdown: All / Reading / Plan to Read / On Hold / Dropped / Completed
-- [ ] Empty state: what shows when filter returns zero results? (Don't skip this — "No series yet, add one!" beats a blank white screen)
-- [ ] Each item is clickable/has an edit affordance (opens edit form — see section 6)
+- [x] Renders all series as cards or table rows — pick one layout, card grid probably reads nicer for cover images later
+- [x] Each item shows: title, type badge, status badge, current chapter (and `/ totalChapters` if known)
+- [x] Status filter — simple tab bar or dropdown: All / Reading / Plan to Read / On Hold / Dropped / Completed
+- [x] Empty state: what shows when filter returns zero results? (Don't skip this — "No series yet, add one!" beats a blank white screen)
+- [x] Each item is clickable/has an edit affordance (opens edit form — see section 6)
 
 ---
 
 ## 5. "+1 chapter" button — the most-used feature
 
-- [ ] Visible directly on each list item, no need to open the series first
-- [ ] On click: calls `bumpChapter(id)`, optimistically updates local state OR refetches — decide which (Recommendation: optimistic update for snappiness, since this is the button you'll click constantly)
-- [ ] Visual feedback on click (brief highlight/animation) so it's obvious the click registered
-- [ ] Debounce/disable the button briefly after click to prevent double-bumps from a fast double-tap
+- [x] Visible directly on each list item, no need to open the series first
+- [x] On click: calls `bumpChapter(id)`, optimistically updates local state OR refetches — decide which (Recommendation: optimistic update for snappiness, since this is the button you'll click constantly)
+- [x] Visual feedback on click (brief highlight/animation) so it's obvious the click registered
+- [x] Debounce/disable the button briefly after click to prevent double-bumps from a fast double-tap
 
 ---
 

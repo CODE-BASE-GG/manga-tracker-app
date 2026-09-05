@@ -1,7 +1,7 @@
-import { IsIn, IsInt,IsOptional } from "class-validator";
+import { IsInt, IsOptional } from 'class-validator';
 
 export class BumpChapterDto {
-    @IsInt()
-    @IsOptional()
-    amount?: number;
+  @IsInt()
+  @IsOptional()
+  amount?: number;
 }

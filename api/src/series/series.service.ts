@@ -7,82 +7,83 @@ import { BumpChapterDto } from './dto/bump-chapter.dto.js';
 
 @Injectable()
 export class SeriesService {
-    constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-    findAll(status?: SeriesStatus, sort?: string) {
-        return this.prisma.series.findMany({
-            orderBy: {
-                [sort === 'updatedAt' ? 'updatedAt' : 'updatedAt']: 'desc',
-            }
-        })
+  findAll(status?: SeriesStatus, sort?: string) {
+    return this.prisma.series.findMany({
+      where: status ? { status } : undefined,
+      orderBy: {
+        [sort === 'updatedAt' ? 'updatedAt' : 'updatedAt']: 'desc',
+      },
+    });
+  }
+
+  async findOne(id: string) {
+    const series = await this.prisma.series.findUnique({
+      where: { id },
+    });
+
+    if (!series) {
+      throw new NotFoundException(`Series with id "${id}" not found`);
     }
 
-    async findOne(id: string) {
-        const series = await this.prisma.series.findUnique({
-            where: {id},
-        });
+    return series;
+  }
 
-        if(!series) {
-            throw new NotFoundException(`Series with id "${id}" not found`);
-        }
+  create(data: CreateSeriesDto) {
+    return this.prisma.series.create({
+      data: {
+        title: data.title,
+        altTitle: data.altTitle,
+        type: data.type,
+        status: data.status,
+        currentChapter: data.currentChapter,
+        totalChapter: data.totalChapter,
+        rating: data.rating,
+        notes: data.notes,
+        coverUrl: data.coverUrl,
+        sourceUrl: data.sourceUrl,
+      },
+    });
+  }
 
-        return series;
-    }
+  async update(id: string, data: UpdateSeriesDto) {
+    await this.findOne(id);
 
-    create(data: CreateSeriesDto) {
-        return this.prisma.series.create({
-            data: {
-                title: data.title,
-                altTitle: data.altTitle,
-                type: data.type,
-                status: data.status,
-                currentChapter: data.currentChapter,
-                totalChapter: data.totalChapter,
-                rating: data.rating,
-                notes: data.notes,
-                coverUrl: data.coverUrl,
-                sourceUrl: data.sourceUrl,
-            }
-        })
-    }
+    return this.prisma.series.update({
+      where: { id },
+      data: {
+        title: data.title,
+        altTitle: data.altTitle,
+        type: data.type,
+        status: data.status,
+        currentChapter: data.currentChapter,
+        totalChapter: data.totalChapter,
+        rating: data.rating,
+        notes: data.notes,
+        coverUrl: data.coverUrl,
+        sourceUrl: data.sourceUrl,
+      },
+    });
+  }
 
-    async update(id: string, data: UpdateSeriesDto) {
-        await this.findOne(id);
+  async bump(id: string, data: BumpChapterDto) {
+    const series = await this.findOne(id);
 
-        return this.prisma.series.update({
-            where: { id },
-            data: {
-                title: data.title,
-                altTitle: data.altTitle,
-                type: data.type,
-                status: data.status,
-                currentChapter: data.currentChapter,
-                totalChapter: data.totalChapter,
-                rating: data.rating,
-                notes: data.notes,
-                coverUrl: data.coverUrl,
-                sourceUrl: data.sourceUrl,
-            }
-        })
-    }
+    const amount = data.amount ?? 1;
+    const currentChapter = Math.max(0, series.currentChapter + amount);
 
-    async bump(id: string, data: BumpChapterDto) {
-        const series = await this.findOne(id);
+    return this.prisma.series.update({
+      where: { id },
+      data: { currentChapter },
+    });
+  }
 
-        const amount = data.amount ?? 1;
-        const currentChapter = Math.max(0, series.currentChapter + amount);
+  async remove(id: string) {
+    await this.findOne(id);
 
-        return this.prisma.series.update({
-            where: { id },
-            data: { currentChapter },
-        })
-    }
-
-    async remove(id:string) {
-        await this.findOne(id);
-
-        await this.prisma.series.delete({
-            where: {id},
-        })
-    }
+    await this.prisma.series.delete({
+      where: { id },
+    });
+  }
 }

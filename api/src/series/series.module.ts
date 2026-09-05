@@ -4,6 +4,6 @@ import { SeriesService } from './series.service.js';
 
 @Module({
   controllers: [SeriesController],
-  providers: [SeriesService]
+  providers: [SeriesService],
 })
 export class SeriesModule {}

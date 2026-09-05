@@ -1,27 +1,22 @@
-import { useState } from 'react';
-import { bumpChapter } from './api/seriesApi';
-import { SeriesList } from './components/SeriesList';
-import { StatusFilter } from './components/StatusFilter';
-import { useSeries } from './hooks/useSeries';
-import type { Series, SeriesStatus } from './types';
+import { useState } from "react";
+import { bumpChapter } from "./api/seriesApi";
+import { SeriesList } from "./components/SeriesList";
+import { StatusFilter } from "./components/StatusFilter";
+import { useSeries } from "./hooks/useSeries";
+import type { Series, SeriesStatus } from "./types";
 
 function App() {
   const [status, setStatus] = useState<SeriesStatus | undefined>();
   const [editingSeries, setEditingSeries] = useState<Series | null>(null);
 
-  const {
-    series,
-    isLoading,
-    error,
-    refetch,
-  } = useSeries(status);
+  const { series, isLoading, error, refetch } = useSeries(status);
 
   const handleBumpChapter = async (id: string) => {
     try {
       await bumpChapter(id);
       await refetch();
     } catch (err) {
-      console.error('Failed to bump chapter:', err);
+      console.error("Failed to bump chapter:", err);
     }
   };
 
@@ -33,15 +28,10 @@ function App() {
           <p>Track what you're reading.</p>
         </div>
 
-        <button type="button">
-          Add Series
-        </button>
+        <button type="button">Add Series</button>
       </header>
 
-      <StatusFilter
-        value={status}
-        onChange={setStatus}
-      />
+      <StatusFilter value={status} onChange={setStatus} />
 
       <main>
         <SeriesList
@@ -53,11 +43,7 @@ function App() {
         />
       </main>
 
-      {editingSeries && (
-        <p>
-          Editing: {editingSeries.title}
-        </p>
-      )}
+      {editingSeries && <p>Editing: {editingSeries.title}</p>}
     </div>
   );
 }

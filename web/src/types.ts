@@ -1,14 +1,7 @@
-export type SeriesType =
-  | 'MANGA'
-  | 'MANHWA'
-  | 'MANHUA';
+export type SeriesType = "MANGA" | "MANHWA" | "MANHUA";
 
 export type SeriesStatus =
-  | 'READING'
-  | 'PLAN_TO_READ'
-  | 'ON_HOLD'
-  | 'DROPPED'
-  | 'COMPLETED';
+  "READING" | "PLAN_TO_READ" | "ON_HOLD" | "DROPPED" | "COMPLETED";
 
 export interface Series {
   id: string;
