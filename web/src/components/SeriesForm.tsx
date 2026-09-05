@@ -1,9 +1,16 @@
 import { useState } from "react";
-import { createSeries } from "../api/seriesApi";
-import type { CreateSeriesDto, SeriesStatus, SeriesType } from "../types";
+import { createSeries, updateSeries } from "../api/seriesApi";
+import type {
+  CreateSeriesDto,
+  Series,
+  SeriesStatus,
+  SeriesType,
+  UpdateSeriesDto,
+} from "../types";
 
 interface SeriesFormProps {
-  onCreated: () => Promise<void>;
+  series?: Series;
+  onSaved: () => Promise<void>;
   onClose: () => void;
 }
 
@@ -20,17 +27,25 @@ const seriesStatuses: Array<{
   { value: "COMPLETED", label: "Completed" },
 ];
 
-export function SeriesForm({ onCreated, onClose }: SeriesFormProps) {
-  const [title, setTitle] = useState("");
-  const [altTitle, setAltTitle] = useState("");
-  const [type, setType] = useState<SeriesType>("MANGA");
-  const [status, setStatus] = useState<SeriesStatus>("PLAN_TO_READ");
-  const [currentChapter, setCurrentChapter] = useState("");
-  const [totalChapter, setTotalChapter] = useState("");
-  const [rating, setRating] = useState("");
-  const [coverUrl, setCoverUrl] = useState("");
-  const [sourceUrl, setSourceUrl] = useState("");
-  const [notes, setNotes] = useState("");
+export function SeriesForm({ series, onSaved, onClose }: SeriesFormProps) {
+  const isEditing = Boolean(series);
+
+  const [title, setTitle] = useState(series?.title ?? "");
+  const [altTitle, setAltTitle] = useState(series?.altTitle ?? "");
+  const [type, setType] = useState<SeriesType>(series?.type ?? "MANGA");
+  const [status, setStatus] = useState<SeriesStatus>(
+    series?.status ?? "PLAN_TO_READ",
+  );
+  const [currentChapter, setCurrentChapter] = useState(
+    series?.currentChapter.toString() ?? "",
+  );
+  const [totalChapter, setTotalChapter] = useState(
+    series?.totalChapter?.toString() ?? "",
+  );
+  const [rating, setRating] = useState(series?.rating?.toString() ?? "");
+  const [coverUrl, setCoverUrl] = useState(series?.coverUrl ?? "");
+  const [sourceUrl, setSourceUrl] = useState(series?.sourceUrl ?? "");
+  const [notes, setNotes] = useState(series?.notes ?? "");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -45,70 +60,84 @@ export function SeriesForm({ onCreated, onClose }: SeriesFormProps) {
       return;
     }
 
-    const dto: CreateSeriesDto = {
-      title: trimmedTitle,
-      type,
-      status,
-    };
+    const parsedCurrentChapter =
+      currentChapter === "" ? undefined : Number(currentChapter);
 
-    if (altTitle.trim()) {
-      dto.altTitle = altTitle.trim();
+    const parsedTotalChapter =
+      totalChapter === "" ? undefined : Number(totalChapter);
+
+    const parsedRating = rating === "" ? undefined : Number(rating);
+
+    if (
+      parsedCurrentChapter !== undefined &&
+      (!Number.isInteger(parsedCurrentChapter) || parsedCurrentChapter < 0)
+    ) {
+      setError("Current chapter must be a non-negative integer.");
+      return;
     }
 
-    if (currentChapter !== "") {
-      const value = Number(currentChapter);
-
-      if (!Number.isInteger(value) || value < 0) {
-        setError("Current chapter must be a non-negative integer.");
-        return;
-      }
-
-      dto.currentChapter = value;
+    if (
+      parsedTotalChapter !== undefined &&
+      (!Number.isInteger(parsedTotalChapter) || parsedTotalChapter < 0)
+    ) {
+      setError("Total chapters must be a non-negative integer.");
+      return;
     }
 
-    if (totalChapter !== "") {
-      const value = Number(totalChapter);
-
-      if (!Number.isInteger(value) || value < 0) {
-        setError("Total chapters must be a non-negative integer.");
-        return;
-      }
-
-      dto.totalChapter = value;
-    }
-
-    if (rating !== "") {
-      const value = Number(rating);
-
-      if (!Number.isInteger(value) || value < 0) {
-        setError("Rating must be a non-negative integer.");
-        return;
-      }
-
-      dto.rating = value;
-    }
-
-    if (coverUrl.trim()) {
-      dto.coverUrl = coverUrl.trim();
-    }
-
-    if (sourceUrl.trim()) {
-      dto.sourceUrl = sourceUrl.trim();
-    }
-
-    if (notes.trim()) {
-      dto.notes = notes.trim();
+    if (
+      parsedRating !== undefined &&
+      (!Number.isInteger(parsedRating) || parsedRating < 0)
+    ) {
+      setError("Rating must be a non-negative integer.");
+      return;
     }
 
     try {
       setIsSubmitting(true);
       setError(null);
 
-      await createSeries(dto);
-      await onCreated();
+      if (isEditing && series) {
+        const dto: UpdateSeriesDto = {
+          title: trimmedTitle,
+          altTitle: altTitle.trim(),
+          type,
+          status,
+          currentChapter: parsedCurrentChapter,
+          totalChapter: parsedTotalChapter,
+          rating: parsedRating,
+          notes: notes.trim(),
+          coverUrl: coverUrl.trim(),
+          sourceUrl: sourceUrl.trim(),
+        };
+
+        await updateSeries(series.id, dto);
+      } else {
+        const dto: CreateSeriesDto = {
+          title: trimmedTitle,
+          altTitle: altTitle.trim(),
+          type,
+          status,
+          currentChapter: parsedCurrentChapter,
+          totalChapter: parsedTotalChapter,
+          rating: parsedRating,
+          notes: notes.trim(),
+          coverUrl: coverUrl.trim(),
+          sourceUrl: sourceUrl.trim(),
+        };
+
+        await createSeries(dto);
+      }
+
+      await onSaved();
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to create series.");
+      setError(
+        err instanceof Error
+          ? err.message
+          : isEditing
+            ? "Failed to update series."
+            : "Failed to create series.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -131,7 +160,9 @@ export function SeriesForm({ onCreated, onClose }: SeriesFormProps) {
         aria-labelledby="series-form-title"
       >
         <div className="modal__header">
-          <h2 id="series-form-title">Add Series</h2>
+          <h2 id="series-form-title">
+            {isEditing ? "Edit Series" : "Add Series"}
+          </h2>
 
           <button
             type="button"
@@ -266,7 +297,13 @@ export function SeriesForm({ onCreated, onClose }: SeriesFormProps) {
             </button>
 
             <button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Adding..." : "Add Series"}
+              {isSubmitting
+                ? isEditing
+                  ? "Saving..."
+                  : "Adding..."
+                : isEditing
+                  ? "Save Changes"
+                  : "Add Series"}
             </button>
           </div>
         </form>

@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { bumpChapter } from "./api/seriesApi";
+import { SeriesForm } from "./components/SeriesForm";
 import { SeriesList } from "./components/SeriesList";
 import { StatusFilter } from "./components/StatusFilter";
 import { useSeries } from "./hooks/useSeries";
-import type { SeriesStatus } from "./types";
-import { SeriesForm } from "./components/SeriesForm";
+import type { Series, SeriesStatus } from "./types";
 
 function App() {
   const [status, setStatus] = useState<SeriesStatus | undefined>();
   const [isAddingSeries, setIsAddingSeries] = useState(false);
-
+  const [editingSeries, setEditingSeries] = useState<Series | null>(null);
   const { series, isLoading, error, refetch } = useSeries(status);
 
   const handleBumpChapter = async (id: string) => {
@@ -29,10 +29,7 @@ function App() {
           <p>Track what you're reading.</p>
         </div>
 
-        <button 
-          type="button"
-          onClick={() => setIsAddingSeries(true)}
-        >
+        <button type="button" onClick={() => setIsAddingSeries(true)}>
           Add Series
         </button>
       </header>
@@ -45,7 +42,7 @@ function App() {
           isLoading={isLoading}
           error={error}
           onBumpChapter={handleBumpChapter}
-          onEdit={() => {}}
+          onEdit={setEditingSeries}
         />
       </main>
 
