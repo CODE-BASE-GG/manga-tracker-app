@@ -77,29 +77,29 @@ Prerequisite: Phase 1 API running locally with all endpoints tested.
 
 ## 9. Basic layout & navigation
 
-- [ ] App shell: header/title + "Add Series" button always visible
-- [ ] Status filter bar below header
-- [ ] List fills the rest of the page
-- [ ] Responsive enough to not be broken on mobile width (doesn't need to be pixel-perfect, just usable)
+- [x] App shell: header/title + "Add Series" button always visible
+- [x] Status filter bar below header
+- [x] List fills the rest of the page
+- [x] Responsive enough to not be broken on mobile width (doesn't need to be pixel-perfect, just usable)
 
 ---
 
 ## 10. Manual end-to-end testing checklist
 
-- [ ] Add a new series → appears in list immediately
-- [ ] Bump its chapter 3 times → count updates each time, no page reload needed
-- [ ] Edit a series's status → moves correctly when filter is applied
-- [ ] Delete a series → disappears from list, confirmation required first
-- [ ] Filter by each status → correct subset shown
-- [ ] Refresh the page → data persists (confirms it's reading from API, not just local state)
+- [x] Add a new series → appears in list immediately
+- [x] Bump its chapter 3 times → count updates each time, no page reload needed
+- [x] Edit a series's status → moves correctly when filter is applied
+- [x] Delete a series → disappears from list, confirmation required first
+- [x] Filter by each status → correct subset shown
+- [x] Refresh the page → data persists (confirms it's reading from API, not just local state)
 
 ---
 
 ## Exit criteria for Phase 2 — **this is the MVP milestone**
 
-- [ ] Every Phase 1 endpoint is used somewhere in the UI
-- [ ] You can go from "empty database" to "tracking 5 series with accurate chapter counts" using only the UI, zero direct DB/Postman intervention
-- [ ] No console errors during normal use
-- [ ] App survives a page refresh without losing data
+- [x] Every Phase 1 endpoint is used somewhere in the UI
+- [x] You can go from "empty database" to "tracking 5 series with accurate chapter counts" using only the UI, zero direct DB/Postman intervention
+- [x] No console errors during normal use
+- [x] App survives a page refresh without losing data
 
 At this point you have a genuinely usable personal tool. Phases 3–4 are polish and extras — treat MVP completion as a natural stopping point if you lose steam.

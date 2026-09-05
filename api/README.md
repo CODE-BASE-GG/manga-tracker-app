@@ -1,114 +1,199 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Manga Tracker API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+NestJS and Prisma API for tracking manga, manhwa, and manhua series. The API uses PostgreSQL and exposes CRUD operations for series, including a dedicated endpoint for changing the current chapter.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Requirements
 
-## Description
+- Node.js and npm
+- PostgreSQL
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Setup
 
-## Project setup
+From this directory:
 
 ```bash
-$ npm install
+npm install
+cp .env.example .env
 ```
 
-## Compile and run the project
+Set `DATABASE_URL` in `.env` to a PostgreSQL connection string. The default local configuration expects:
+
+```text
+postgresql://manga_tracker:manga_tracker@localhost:5432/manga_tracker?schema=public
+```
+
+To create the expected local PostgreSQL role and database, run:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run db:local
 ```
 
-## Run tests
+This script requires PostgreSQL to be installed and available locally. It may require a system user with permission to run `sudo -u postgres`.
+
+Apply migrations directly with:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run db:migrate:local
 ```
 
-## Deployment
+The API loads `.env` automatically. `PORT` controls the HTTP port and defaults to `3000`.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### Windows setup
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+The `db:local` script is written for Linux/macOS because it uses Bash and `sudo`. On Windows:
+
+1. Install PostgreSQL and make sure the PostgreSQL service is running.
+2. Create a PostgreSQL role named `manga_tracker` with password `manga_tracker` and a database named `manga_tracker` owned by that role. You can do this during installation, in pgAdmin, or with `psql`.
+3. Copy the environment file in PowerShell:
+
+	```powershell
+	Copy-Item .env.example .env
+	```
+
+4. Confirm that `DATABASE_URL` in `.env` points to the local PostgreSQL instance, then apply the migration:
+
+	```powershell
+	npm run db:migrate:local
+	```
+
+The migration and application commands work from PowerShell, Command Prompt, Git Bash, or Windows Terminal. If using Git Bash, `npm run db:local` can also be used after PostgreSQL and the required permissions are configured.
+
+### Remote database
+
+Set `DATABASE_TARGET=remote` and provide `REMOTE_DATABASE_URL`. For Prisma migrations, also provide `REMOTE_DIRECT_URL` when the remote provider uses a separate direct connection. Then run:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run db:migrate:remote
+npm run start:remote
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Keep remote connection strings out of source control.
 
-## Observability
+## Running the API
 
-In production applications, observability is essential for understanding how your system behaves, detecting issues early, and maintaining reliable performance.
+```bash
+# Development
+npm run start:dev
 
-[NestJS Observe](https://observe.nestjs.com) automatically instruments your NestJS application, giving you deep visibility into your system with minimal setup:
+# Production build and start
+npm run build
+npm run start:prod
+```
 
-- **Distributed tracing:** Follow requests across services and understand how they flow through your system.
-- **Waterfall analysis:** Visualize request execution and identify slow operations, bottlenecks, and unexpected delays.
-- **Performance analysis:** Analyze application performance in real time and quickly pinpoint areas that need optimization.
-- **Metrics:** Track key application and infrastructure metrics to understand system health and performance trends.
-- **Logging:** Centralize and correlate logs with traces and other telemetry to make debugging easier.
-- **Error tracking:** Detect errors quickly and investigate their root causes with the surrounding context.
-- **SLA monitoring:** Track service-level objectives and identify when your application is approaching or exceeding defined thresholds.
-- **Alarms and alerts:** Set up alerts for critical errors, performance degradation, SLA violations, and other anomalies so your team can react quickly.
+The API is available at `http://localhost:3000` by default. CORS is enabled for the API server.
 
-## Resources
+## API
 
-Check out a few resources that may come in handy when working with NestJS:
+All responses use the response body directly; there is no `{ data: ... }` wrapper.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Auto-instrument your application with [NestJS Observer](https://observer.nestjs.com). Distributed tracing, metrics, and logging made easy. Error tracking and performance monitoring for your NestJS applications.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Series values
 
-## Support
+`type` must be one of:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- `MANGA`
+- `MANHWA`
+- `MANHUA`
 
-## Stay in touch
+`status` must be one of:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- `READING`
+- `PLAN_TO_READ`
+- `ON_HOLD`
+- `DROPPED`
+- `COMPLETED`
 
-## License
+### `GET /series`
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Returns all series ordered by `updatedAt` descending. Pass `status` to filter the result:
+
+```text
+GET /series?status=READING
+```
+
+The `sort=updatedAt` query is accepted and uses the same descending `updatedAt` order. Other sort values also currently fall back to this order.
+
+### `GET /series/:id`
+
+Returns one series. A missing ID returns `404 Not Found`.
+
+### `POST /series`
+
+Creates a series and returns the created record.
+
+```json
+{
+	"title": "Example Series",
+	"altTitle": "Optional alternate title",
+	"type": "MANGA",
+	"status": "READING",
+	"currentChapter": 12,
+	"totalChapter": 50,
+	"rating": 8,
+	"notes": "Read on weekends",
+	"coverUrl": "https://example.com/cover.jpg",
+	"sourceUrl": "https://example.com/series"
+}
+```
+
+Required fields are `title` and `type`. `status` defaults to `PLAN_TO_READ`, and `currentChapter` defaults to `0`. The other fields are optional. `currentChapter`, `totalChapter`, and `rating` must be integers greater than or equal to `0`.
+
+### `PATCH /series/:id`
+
+Updates any subset of the create fields and returns the updated record. A missing ID returns `404 Not Found`.
+
+```json
+{
+	"status": "COMPLETED",
+	"rating": 9
+}
+```
+
+### `PATCH /series/:id/bump`
+
+Changes `currentChapter` and returns the updated record.
+
+```json
+{
+	"amount": 5
+}
+```
+
+If the body is omitted, `amount` defaults to `1`. Negative amounts are allowed, but the resulting chapter is never below `0`. The API does not prevent the current chapter from exceeding `totalChapter`.
+
+### `DELETE /series/:id`
+
+Deletes a series and returns `204 No Content`. A missing ID returns `404 Not Found`.
+
+## Series response shape
+
+```json
+{
+	"id": "generated-uuid",
+	"title": "Example Series",
+	"altTitle": null,
+	"type": "MANGA",
+	"status": "PLAN_TO_READ",
+	"currentChapter": 0,
+	"totalChapter": null,
+	"rating": null,
+	"notes": null,
+	"coverUrl": null,
+	"sourceUrl": null,
+	"createdAt": "2026-09-05T12:00:00.000Z",
+	"updatedAt": "2026-09-05T12:00:00.000Z"
+}
+```
+
+Invalid request bodies return `400 Bad Request`. Unknown body properties are removed by the global validation pipe.
+
+## Useful commands
+
+```bash
+npm test              # Unit tests
+npm run test:e2e      # End-to-end tests
+npm run test:cov      # Coverage report
+npm run lint          # Oxlint
+npm run format        # Format TypeScript files
+```
+
+Prisma migrations are stored in `prisma/migrations`. The generated Prisma client is stored in `src/generated/prisma`.

@@ -1,73 +1,92 @@
-# React + TypeScript + Vite
+# Manga Tracker Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React frontend for the Manga Tracker application. It uses Vite for development and production builds and communicates with the NestJS API in the sibling `api` directory.
 
-Currently, two official plugins are available:
+## Requirements
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js and npm
+- A running Manga Tracker API
 
-## React Compiler
+## Setup
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+From this directory:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Create a local environment file from the included example:
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+```bash
+cp .env.example .env
+```
 
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+`VITE_API_URL` is required. The frontend throws an error during startup when it is missing. Do not add a trailing slash; API paths such as `/series` are appended to this value.
+
+### Windows setup
+
+```powershell
+Copy-Item .env.example .env
+```
+
+The npm commands below work from PowerShell, Command Prompt, Git Bash, or Windows Terminal.
+
+## Development
+
+Start the Vite development server:
+
+```bash
+npm run dev
+```
+
+Vite prints the local URL in the terminal, normally `http://localhost:5173`.
+
+The API must be running separately, normally at `http://localhost:3000`. The API enables CORS for browser requests.
+
+## Features
+
+- View all tracked series in a responsive card grid
+- Filter series by status: Reading, Plan to Read, On Hold, Dropped, or Completed
+- Add a series with title, alternate title, type, status, chapter counts, rating, notes, cover URL, and source URL
+- Edit an existing series
+- Increment the current chapter by one
+- Delete a series after confirmation
+- Display loading, empty, and API error states
+
+Supported series types are `MANGA`, `MANHWA`, and `MANHUA`.
+
+## API integration
+
+The frontend calls these API endpoints:
+
+| Operation | Endpoint |
+| --- | --- |
+| List series, optionally filtered by status | `GET /series` |
+| Create a series | `POST /series` |
+| Update a series | `PATCH /series/:id` |
+| Increment a chapter | `PATCH /series/:id/bump` |
+| Delete a series | `DELETE /series/:id` |
+
+Successful create, update, chapter bump, and delete operations trigger a list refresh. API errors are shown in the relevant loading, form, or delete-confirmation state.
+
+## Commands
+
+```bash
+npm run dev      # Start the development server
+npm run build    # Type-check and create a production build
+npm run lint     # Run ESLint
+npm run preview  # Preview the production build locally
+```
+
+There is currently no dedicated frontend test script in `package.json`.
+
+## Project structure
+
+```text
+src/
+	api/           API request functions
+	components/    Series cards, forms, filters, and dialogs
+	hooks/         Data-fetching hooks
+	App.tsx        Main application view
+	types.ts       Shared frontend data types
 ```
