@@ -3,11 +3,12 @@ import { bumpChapter } from "./api/seriesApi";
 import { SeriesList } from "./components/SeriesList";
 import { StatusFilter } from "./components/StatusFilter";
 import { useSeries } from "./hooks/useSeries";
-import type { Series, SeriesStatus } from "./types";
+import type { SeriesStatus } from "./types";
+import { SeriesForm } from "./components/SeriesForm";
 
 function App() {
   const [status, setStatus] = useState<SeriesStatus | undefined>();
-  const [editingSeries, setEditingSeries] = useState<Series | null>(null);
+  const [isAddingSeries, setIsAddingSeries] = useState(false);
 
   const { series, isLoading, error, refetch } = useSeries(status);
 
@@ -28,7 +29,12 @@ function App() {
           <p>Track what you're reading.</p>
         </div>
 
-        <button type="button">Add Series</button>
+        <button 
+          type="button"
+          onClick={() => setIsAddingSeries(true)}
+        >
+          Add Series
+        </button>
       </header>
 
       <StatusFilter value={status} onChange={setStatus} />
@@ -39,11 +45,16 @@ function App() {
           isLoading={isLoading}
           error={error}
           onBumpChapter={handleBumpChapter}
-          onEdit={setEditingSeries}
+          onEdit={() => {}}
         />
       </main>
 
-      {editingSeries && <p>Editing: {editingSeries.title}</p>}
+      {isAddingSeries && (
+        <SeriesForm
+          onCreated={refetch}
+          onClose={() => setIsAddingSeries(false)}
+        />
+      )}
     </div>
   );
 }
