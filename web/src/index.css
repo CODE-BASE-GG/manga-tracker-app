@@ -125,7 +125,7 @@ button {
 
 .series-card__alt-title {
   margin: 8px 0 0;
-  color: #111827;
+  color: #0a0b0f;
   font-size: 0.9rem;
 }
 
@@ -245,6 +245,25 @@ button {
   line-height: 1;
   cursor: pointer;
 }
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.modal__actions button {
+  padding: 9px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+}
+
+.modal__actions button[type="submit"] {
+  background: #111827;
+  color: white;
+  border-color: #111827;
+}
 
 .form-grid {
   display: grid;
@@ -277,26 +296,6 @@ button {
 .form-error {
   margin: 16px 0 0;
   color: #b91c1c;
-}
-
-.modal__actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 24px;
-}
-
-.modal__actions button {
-  padding: 9px 16px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  background: white;
-}
-
-.modal__actions button[type="submit"] {
-  background: #111827;
-  color: white;
-  border-color: #111827;
 }
 
 @media (max-width: 600px) {

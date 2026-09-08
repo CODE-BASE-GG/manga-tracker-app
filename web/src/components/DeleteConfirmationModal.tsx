@@ -29,12 +29,12 @@ export function DeleteConfirmationModal({
                 aria-modal="true"
                 aria-labelledby="delete-modal-title"
             >
-                <div className="modal_header">
+                <div className="modal__header">
                     <h2 id="delete-modal-title">Delete Series</h2>
 
                     <button 
                         type="button"
-                        className="modal_close"
+                        className="modal__close"
                         onClick={onClose}
                         disabled={isDeleting}
                         aria-label="Close"
@@ -58,7 +58,7 @@ export function DeleteConfirmationModal({
                     </p>
                 )}
 
-                <div className="modal_actions">
+                <div className="modal__actions">
                     <button 
                         type="button"
                         onClick={onClose}
