@@ -16,6 +16,12 @@ npm install
 cp .env.example .env
 ```
 
+`npm install` automatically generates the Prisma client. If the generated client is missing, run:
+
+```bash
+npm run db:generate
+```
+
 Set `DATABASE_URL` in `.env` to a PostgreSQL connection string. The default local configuration expects:
 
 ```text
