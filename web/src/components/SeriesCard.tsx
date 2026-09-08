@@ -14,12 +14,13 @@ export function SeriesCard({
   onDelete,  
 }: SeriesCardProps) {
   return (
-    <article className="series-card">
-      <div className="series-card_content">
-        <div className="series-card_header">
+    <article className="series-card" style={{backgroundImage: `url(${series.coverUrl})`}}>
+      <div className="series-card__content">
+        <div className="series-card__header">
+
           <h2>{series.title}</h2>
 
-          <div className="series-card_badges">
+          <div className="series-card__badges">
             <span className="badge badge--type">{series.type}</span>
 
             <span className="badge badge--status">
@@ -29,15 +30,15 @@ export function SeriesCard({
         </div>
 
         {series.altTitle && (
-          <p className="series-card_alt-title">{series.altTitle}</p>
+          <p className="series-card__alt-title">{series.altTitle}</p>
         )}
 
-        <p className="series-card_chapters">
+        <p className="series-card__chapters">
           Chapter {series.currentChapter}
           {series.totalChapter !== null && ` / ${series.totalChapter}`}
         </p>
 
-        <div className="series-card_actions">
+        <div className="series-card__actions">
           <button type="button" onClick={() => onBumpChapter(series.id)}>
             +1 Chapter
           </button>
@@ -54,3 +55,10 @@ export function SeriesCard({
     </article>
   );
 }
+/*
+ *
+          <div className="series-card__cover">
+            <img src={series.coverUrl || ""} alt={`${series.title} banner`} />
+          </div>
+ *
+ * */

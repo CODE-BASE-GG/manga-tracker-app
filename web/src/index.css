@@ -7,8 +7,7 @@
     "Segoe UI",
     sans-serif;
 
-  color: #1f2937;
-  background: #f3f4f6;
+  color: #1f2937; background: #f3f4f6;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
@@ -80,16 +79,23 @@ button {
   border-color: #111827;
 }
 
-.series-grid {
+.series-alignment {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(28rem, 0fr));
   gap: 16px;
 }
 
 .series-card {
-  background: white;
+  width: 28rem;
+  background-position: center;
+  background-size: cover;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
+  overflow: hidden;
+}
+
+.series-card__content {
+  background-color: rgba(255, 255, 255, 0.6);
   padding: 18px;
 }
 
@@ -99,6 +105,19 @@ button {
   gap: 10px;
 }
 
+.series-card__cover {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.series-card_cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 .series-card h2 {
   margin: 0;
   font-size: 1.2rem;
@@ -106,7 +125,7 @@ button {
 
 .series-card__alt-title {
   margin: 8px 0 0;
-  color: #6b7280;
+  color: #111827;
   font-size: 0.9rem;
 }
 
@@ -185,24 +204,6 @@ button {
   background: #b91c1c !important;
   color: white !important;
   border-color: #b91c1c !important;
-}
-
-@media (max-width: 600px) {
-  .app {
-    padding: 16px;
-  }
-
-  .app-header {
-    align-items: flex-start;
-  }
-
-  .app-header button {
-    flex-shrink: 0;
-  }
-
-  .series-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 .modal-backdrop {
@@ -311,3 +312,4 @@ button {
     padding: 18px;
   }
 }
+

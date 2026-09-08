@@ -1,0 +1,35 @@
+
+@media screen and (max-width: 960px) {
+	.series-alignment {
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	}
+
+	.series-card {
+	  width: 90%;
+	  background-position: center;
+	  background-size: cover;
+	  border: 1px solid #e5e7eb;
+	  border-radius: 12px;
+	  overflow: hidden;
+	}
+}
+
+@media screen and  (max-width: 600px) {
+  .app {
+    padding: 16px;
+  }
+
+  .app-header {
+    align-items: flex-start;
+  }
+
+  .app-header button {
+    flex-shrink: 0;
+  }
+
+  .series-grid {
+    grid-template-columns: 1fr;
+  }
+}
