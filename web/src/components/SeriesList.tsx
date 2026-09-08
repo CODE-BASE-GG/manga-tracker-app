@@ -36,7 +36,7 @@ export function SeriesList({
   }
 
   return (
-    <section className="series-grid">
+    <section className="series-alignment">
       {series.map((item) => (
         <SeriesCard
           key={item.id}
